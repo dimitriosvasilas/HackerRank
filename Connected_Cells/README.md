@@ -14,3 +14,10 @@ Next N lines : the matrix
 #### Output
 
 Number of cells in the largest region in the given array
+
+#### Notes
+
+The problem can be expressed as follows:
+- the matrix represents a graph. Connected and filled cells represent graph edges
+- regions represent connected components of the graph
+- the task is to count the number of nodes in the largest connected component
