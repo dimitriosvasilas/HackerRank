@@ -7,8 +7,8 @@ Given an N x M matrix, find the number of cells in the largest region in the mat
 
 #### Input
 
-First line : N - number of row in the matrix
-Second line : M - number of columns in the matrix
+First line : N - the number of row in the matrix
+Second line : M - the number of columns in the matrix
 Next N lines : the matrix
 
 #### Output
