@@ -7,12 +7,14 @@ of a tree is the sum of the data values of its nodes.
 #### Input
 
 First line : N - the number of nodes in the tree
+
 Second line : N space-separated integers denoting the data values of the nodes
+
 Next N-1 lines : each line contains two space-separated integers, u and v, describing the edge u<->v
 
 #### Output
 
-the minimum difference for the given tree
+The minimum difference for the given tree
 
 #### Notes
 
