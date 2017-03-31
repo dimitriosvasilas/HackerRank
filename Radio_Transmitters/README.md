@@ -9,3 +9,8 @@ Second line: space-separated integers describing the location of each house
 
 #### Output
 An integer denoting the minimum number of transmitters needed to cover all the houses.
+
+#### Notes
+The problem is equivalent with the following:  
+Given n points on the x-axis and an integer k, find the minimum number of intervals of the form [x<sub>i</sub>-k, 
+x<sub>i</sub>+k], so that each point x<sub>i</sub> is contained in an interval
