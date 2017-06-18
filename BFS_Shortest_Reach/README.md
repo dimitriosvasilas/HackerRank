@@ -1,4 +1,7 @@
-### BFS: Shortest Reach
+### Breadth First Search: Shortest Reach
+[Problem on HacherRank](https://www.hackerrank.com/challenges/bfsshortreach/problem)
+
+
 Given an undirected graph of N nodes, labeled from 1 to N, and the edge between two nodes is always of length 6, calculate the
 shortest distance from starting node s to all other nodes in the graph.
 
