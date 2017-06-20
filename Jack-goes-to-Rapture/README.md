@@ -1,4 +1,7 @@
-### Public Transoprt
+### Jack goes to Rapture
+
+[Problem on HackerRank](https://www.hackerrank.com/challenges/jack-goes-to-rapture)
+
 Given the following information about a city's transportation system:
 * the number of stations N
 * the fare between each pair of connected stations  
