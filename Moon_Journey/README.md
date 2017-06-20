@@ -1,4 +1,7 @@
 ### Moon Journey
+
+[Problem on HackerRank](https://www.hackerrank.com/challenges/journey-to-the-moon)
+
 Given N people, labeled 0 to N-1, and a number of pairs indicating that two persons are citizens of the same country, calculate
 the number of possible ways to choose a pair of people from two different countries.
 
