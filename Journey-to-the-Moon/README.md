@@ -1,4 +1,4 @@
-### Moon Journey
+### Journey to the Moon 
 
 [Problem on HackerRank](https://www.hackerrank.com/challenges/journey-to-the-moon)
 

@@ -1,4 +1,6 @@
-### Radio Transmitters
+### Hackerland Radio Transmitters
+
+[Problem on HackerRank](https://www.hackerrank.com/challenges/hackerland-radio-transmitters)
 Given an one-dimensional city with n houses, where each house i is located at some point x<sub>i</sub> on the x-axis, and a set
 of radio transmitters with range k than be located at the roofs of city's houses, find the minimum number of transmitters needed
 to cover every house in the city.
