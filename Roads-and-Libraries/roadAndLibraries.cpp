@@ -1,43 +1,34 @@
-#include <utility>
 #include <ostream>
 #include <vector>
 #include <iostream>
-#include <string>
 #include <stack>
-#include <fstream>
 
 using namespace std;
 
 class Graph
 {
 	public:
-		Graph(bool directed = false) : directed(directed) {}
-		int VertexCount() const;
-		void AddVertex();
-		void AddVertices(int n);
-		void AddEdge(int start_id, int end_id, int cost = 0);
+		Graph() {}
+		int vertexCount() const;
+		void addVertices(int n);
+		void addEdge(int start_id, int end_id, int cost = 0);
 		
-		friend ostream & operator<<(ostream & out, Graph & g);
-
 		const int connectedComponentCount(int start_id, vector<bool> &visited) const;
 		vector<int> connectedComponents() const;
 	private:
 		class Edge
 		{       
 			public:
-				Edge(int end_id, int cost): dest_id(end_id), cost(cost) {}
+				Edge(int end_id, int cost): dest_id(end_id) {}
 				const int getDestId() const;
-				const int getCost() const;
-
 			private:
 				int dest_id;
-				int cost;
 		};
 		class Vertex
 		{
 			public:
 				Vertex(int id): id(id) {}
-				void AddEdge(int end_id, int cost);
+				void addEdge(int end_id, int cost);
 				const int getId() const;
 				const vector<Edge> & getEdges() const;
 
@@ -46,8 +37,6 @@ class Graph
 				vector<Edge> edges;
 		};
 		vector<Vertex> vertices;
-		const bool directed;
-		void Print(ostream & out) const;		
 };
 const int Graph::Vertex::getId() const
 {
@@ -63,51 +52,28 @@ const vector<typename Graph::Edge> & Graph::Vertex::getEdges() const
 	return edges;
 }
 
-void Graph::Vertex::AddEdge(int end_id, int cost)
+void Graph::Vertex::addEdge(int end_id, int cost)
 {
 	edges.push_back(Edge(end_id, cost));
 }
 
-int Graph::VertexCount() const
+int Graph::vertexCount() const
 {
 	return vertices.size();
 }
 
-void Graph::AddVertex()
+void Graph::addVertices(int n)
 {
-	int id = VertexCount();
-	vertices.push_back(Vertex(id));
-}
-
-void Graph::AddVertices(int n)
-{
-	for (int i = 0; i < n; i++)
-		AddVertex();
-}
-
-void Graph::AddEdge(int start_id, int end_id, int cost)
-{
-	vertices[start_id-1].AddEdge(end_id-1, cost);
-	if (!directed)
-		vertices[end_id-1].AddEdge(start_id-1, cost);
-}
-
-void Graph::Print(ostream & out) const
-{
-	out << "";
-	for (const Vertex v : vertices) {
-		out << v.getId() << ":";
-		for (const Edge e : v.getEdges()) {
-			out << " " << vertices[e.getDestId()].getId();
-		}
-	out << "\n";
+	for (int i = 0; i < n; i++) {
+		int id = vertexCount();
+		vertices.push_back(Vertex(id));
 	}
 }
 
-ostream & operator<<(ostream & out, Graph & g)
+void Graph::addEdge(int start_id, int end_id, int cost)
 {
-	g.Print(out);
-	return out;
+	vertices[start_id-1].addEdge(end_id-1, cost);
+	vertices[end_id-1].addEdge(start_id-1, cost);
 }
 
 const int Graph::connectedComponentCount(int start_id, vector<bool> &visited) const
@@ -137,15 +103,15 @@ const int Graph::connectedComponentCount(int start_id, vector<bool> &visited) co
 vector<int> Graph::connectedComponents() const
 {
 	vector<int> components;
-	vector<bool> visited(VertexCount(), false);
+	vector<bool> visited(vertexCount(), false);
 	int visited_count = 0;
 
-	for (int i=0; i<VertexCount(); i++) {
+	for (int i = 0; i < vertexCount(); i++) {
                 int c = connectedComponentCount(i, visited);
 		if (c > 0)
 			components.push_back(c);
 		visited_count += c;
-		if (visited_count == VertexCount())
+		if (visited_count == vertexCount())
 			break;
         }
 	return components;
@@ -159,11 +125,11 @@ int main()
 		cin >> n >> m >> c_lib >> c_road;
 	
 		Graph g;
-		g.AddVertices(n);
+		g.addVertices(n);
 	
 		for(int m_i = 0; m_i < m; m_i++) {
 			cin >> u >> v;
-			g.AddEdge(u, v);
+			g.addEdge(u, v);
 		}
 	
 		if (c_road >= c_lib)
@@ -173,10 +139,8 @@ int main()
 			vector<int> components = g.connectedComponents();
 			for (vector<int>::const_iterator i = components.begin(); i != components.end(); ++i)
 				cost += (*i - 1) * c_road;
-				//cout << *i << ' ';
 			cost += components.size() * c_lib;
 			cout << cost << "\n";
 		}
 	}
 }
-
