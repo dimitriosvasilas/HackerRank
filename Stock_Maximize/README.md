@@ -11,4 +11,4 @@ First line: an integer N
 Second line: N space-separated integers denoting the share prices
 
 #### Output
-For each test case, a line containing the maximum profit that can be obtained 
+For each test case, a line containing the maximum profit that can be obtained
