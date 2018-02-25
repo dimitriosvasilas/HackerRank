@@ -1,5 +1,5 @@
 import numpy as np
-
+import math
 
 def read_file(filename):
 	with open(filename,'r') as f:
@@ -19,18 +19,29 @@ def read_file(filename):
 
 class Pizza():
 
-	def __init__(self,pizza,L,H):
+	def __init__(self,pizza):
 		self.pizza = pizza
+		
+class Tree():
+
+	def __init__(self):
+		pizza, L, H = read_file('example.txt')
 		self.L = L
 		self.H = H
+		self.pizza = Pizza(pizza)
 
+	def sliceDimensions(n, R, C) :
+	    list = [] 
+	    for i in range(1, int(math.sqrt(n) + 1)) :
+	        if (n % i == 0) :
+	            if (i <= R and int(n / i) <= C):
+	                list.append((i, int(n / i)))
+	                list.append((int(n / i), i))
+	    return list
 
 
 def main():
-	pizza, L, H = read_file('example.txt')
-	NewPizza = Pizza(pizza,L,H)
-
-
+	tree = Tree()
 
 
 if __name__ == '__main__':
