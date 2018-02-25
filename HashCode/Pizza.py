@@ -15,20 +15,46 @@ def read_file(filename):
 				else:
 					pizza[row,col] = 0
 
-	return pizza, min_ingr,max_cells
+	return pizza, min_ingr,max_cells, rows, columns
 
 		
 class Tree():
 
 	def __init__(self):
-		pizza, L, H = read_file('example.txt')
+		self.pizza = None
+		self.L = None
+		self.H = None
+		self.R = None
+		self.C = None
+		self.children = []
+		self.score = 0
+		
+	def from_Input(self):
+		pizza, L, H, R, C = read_file('example.txt')
 		self.L = L
 		self.H = H
+		self.R = R
+		self.C = C
 		self.pizza = pizza
+	
+	def from_State(self, state, x, y, dimX, dimY):
+		self.L = state.L
+		self.H = state.H
+		self.R = state.R
+		self.C = state.C
+		self.pizza = state.pizza.copy()
+		self.score = state.score
+		for r in range(x, x+dimX):
+			for c in range(y, y+dimY):
+				self.pizza[r][c] = None
+				self.score += 1
+	
+	def show(self):
+		print(self.pizza)
 
 	#Calulate maximum possible dimensions for a slice containg n cells
-	def sliceDimensions(self,n, R, C) :
-	    Slice = [] 
+	def sliceDimensions(self,n, R, C):
+	    Slice = []
 	    for i in range(1, int(math.sqrt(n) + 1)) :
 	        if (n % i == 0) :
 	            if (i <= R and int(n / i) <= C):
@@ -80,19 +106,32 @@ class Tree():
 
 
 	def Check(self):
-		FittingSlices = self.sliceDimensions(6,3,5)
-		for i in range(len(FittingSlices)):
-			StartingPosition = (0,0) #needs changes to be general
-			if (self.CorrectSlice(StartingPosition[0],StartingPosition[1],FittingSlices[i][0],FittingSlices[i][1])):
-				print (FittingSlices[i][0],FittingSlices[i][1],"Correct Slice")
-
-
-
-
+		
+		for size in range(self.H, 2*self.L-1, -1):
+			flag = False
+			FittingSlices = self.sliceDimensions(size, self.R, self.C)
+			for i in range(len(FittingSlices)):
+				for r in range(self.R):
+					for c in range(self.C):
+						StartingPosition = (r,c) #needs changes to be general
+						if (self.CorrectSlice(StartingPosition[0],StartingPosition[1],FittingSlices[i][0],FittingSlices[i][1])):
+							flag = True
+							print (FittingSlices[i][0], FittingSlices[i][1], r, c, "Correct Slice")
+							newChild = Tree()
+							newChild.from_State(self, StartingPosition[0], StartingPosition[1], FittingSlices[i][0], FittingSlices[i][1])
+							newChild.show()
+							print(newChild.score)
+							self.children.append(newChild)
+			if flag:
+				break
+		for c in self.children:
+			c.Check()
+			
 
 
 def main():
 	tree = Tree()
+	tree.from_Input()
 	tree.Check()
 
 
