@@ -2,7 +2,8 @@ import numpy as np
 import math
 
 maxScore = 0
-maxList = []		
+maxList = []
+seenSlices = []
 
 
 # Read the input file
@@ -35,7 +36,7 @@ class Tree():
 		self.SliceList = []
 		
 	def from_Input(self):
-		pizza, L, H, R, C = read_file('example.txt')
+		pizza, L, H, R, C = read_file('small.txt')
 		self.L = L
 		self.H = H
 		self.R = R
@@ -45,6 +46,7 @@ class Tree():
 	def from_State(self, state, x, y, dimX, dimY):
 		global maxScore
 		global maxList
+		global seenSlices
 		self.L = state.L
 		self.H = state.H
 		self.R = state.R
@@ -56,10 +58,12 @@ class Tree():
 			for c in range(y, y+dimY):
 				self.pizza[r][c] = None
 		self.SliceList.append((x,y,x+dimX-1,y+dimY-1))
+		self.SliceList = sorted(self.SliceList, key=lambda tup: (tup[0], tup[1], tup[2], tup[3]))
 		self.score += dimX*dimY
-		if (self.score > maxScore):
+		if (self.score >= maxScore):
 			maxScore = self.score
 			maxList = self.SliceList
+			print(maxScore, maxList)
 	
 	def show(self):
 		print(self.pizza)
@@ -94,44 +98,31 @@ class Tree():
 		else:
 			return False
 
-
-	# Check if slize has H cells and doesn't include other slices
-	def SatisfyHCond(self,r1,c1,dimR,dimC):
-		if (self.SliceInside(r1,c1,dimR,dimC)):
-			PizzaSlice = self.pizza[r1:r1+dimR,c1:c1+dimC]
-			if (PizzaSlice.size <= self.H and not math.isnan(PizzaSlice.sum())):
-				return True
-		return False
-
-
-
 	# See if slice is inside pizza, has at least L of each ingredient and H maximum cells
 	def CorrectSlice(self,r1,c1,dimR,dimC):
-		# Check if it has at least L ingredients
-		Cond1 = self.SatisfyLCond(r1,c1,dimR,dimC)
-		# Check if it has maximum H cells and doesn't include other slices
-		Cond2 = self.SatisfyHCond(r1,c1,dimR,dimC)
-		if (Cond1 and Cond2):
-			return True
-		else:
+		if (r1+dimR > self.R or c1+dimC > self.C):
 			return False
+		return self.SatisfyLCond(r1,c1,dimR,dimC)
 
 
 	def Check(self):
-		
+		global seenSlices
 		for size in range(self.H, 2*self.L-1, -1):
 			flag = False
 			FittingSlices = self.sliceDimensions(size, self.R, self.C)
 			for i in range(len(FittingSlices)):
 				for r in range(self.R):
 					for c in range(self.C):
-						StartingPosition = (r,c) #needs changes to be general
-						if (self.CorrectSlice(StartingPosition[0],StartingPosition[1],FittingSlices[i][0],FittingSlices[i][1])):
-							flag = True
-							newChild = Tree()
-							newChild.from_State(self, StartingPosition[0], StartingPosition[1], FittingSlices[i][0], FittingSlices[i][1])
-							# newChild.show()
-							self.children.append(newChild)
+						if (r != None and c != None):
+							StartingPosition = (r,c) #needs changes to be general
+							if (self.CorrectSlice(StartingPosition[0],StartingPosition[1],FittingSlices[i][0],FittingSlices[i][1])):
+								flag = True
+								newChild = Tree()
+								newChild.from_State(self, StartingPosition[0], StartingPosition[1], FittingSlices[i][0], FittingSlices[i][1])
+								# newChild.show()
+								if (not (newChild.SliceList in seenSlices)):
+									seenSlices.append(newChild.SliceList)
+									self.children.append(newChild)
 			if flag:
 				break
 		for c in self.children:
@@ -143,6 +134,7 @@ def write_file():
 		f.write(str(len(maxList))+'\n')
 		for i in range(len(maxList)):
 			f.write(str(maxList[i][0]) +' '+str(maxList[i][1])+' '+str(maxList[i][2])+' '+ str(maxList[i][3])+'\n')
+			
 
 def main(): 
 	tree = Tree()
