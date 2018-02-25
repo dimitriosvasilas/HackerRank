@@ -1,6 +1,10 @@
 import numpy as np
 import math
 
+maxScore = 0
+maxList = []		
+
+
 # Read the input file
 def read_file(filename):
 	with open(filename,'r') as f:
@@ -28,6 +32,7 @@ class Tree():
 		self.C = None
 		self.children = []
 		self.score = 0
+		self.SliceList = []
 		
 	def from_Input(self):
 		pizza, L, H, R, C = read_file('example.txt')
@@ -38,16 +43,23 @@ class Tree():
 		self.pizza = pizza
 	
 	def from_State(self, state, x, y, dimX, dimY):
+		global maxScore
+		global maxList
 		self.L = state.L
 		self.H = state.H
 		self.R = state.R
 		self.C = state.C
 		self.pizza = state.pizza.copy()
 		self.score = state.score
+		self.SliceList = list(state.SliceList)
 		for r in range(x, x+dimX):
 			for c in range(y, y+dimY):
 				self.pizza[r][c] = None
-				self.score += 1
+		self.SliceList.append((x,y,x+dimX-1,y+dimY-1))
+		self.score += dimX*dimY
+		if (self.score > maxScore):
+			maxScore = self.score
+			maxList = self.SliceList
 	
 	def show(self):
 		print(self.pizza)
@@ -116,23 +128,27 @@ class Tree():
 						StartingPosition = (r,c) #needs changes to be general
 						if (self.CorrectSlice(StartingPosition[0],StartingPosition[1],FittingSlices[i][0],FittingSlices[i][1])):
 							flag = True
-							print (FittingSlices[i][0], FittingSlices[i][1], r, c, "Correct Slice")
 							newChild = Tree()
 							newChild.from_State(self, StartingPosition[0], StartingPosition[1], FittingSlices[i][0], FittingSlices[i][1])
-							newChild.show()
-							print(newChild.score)
+							# newChild.show()
 							self.children.append(newChild)
 			if flag:
 				break
 		for c in self.children:
 			c.Check()
-			
 
 
-def main():
+def write_file():
+	with open('output.txt','w') as f:
+		f.write(str(len(maxList))+'\n')
+		for i in range(len(maxList)):
+			f.write(str(maxList[i][0]) +' '+str(maxList[i][1])+' '+str(maxList[i][2])+' '+ str(maxList[i][3])+'\n')
+
+def main(): 
 	tree = Tree()
 	tree.from_Input()
 	tree.Check()
+	write_file()
 
 
 if __name__ == '__main__':
