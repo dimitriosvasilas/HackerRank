@@ -1,5 +1,5 @@
-Go, Gopher!
-Problem
+### Go, Gopher!
+#### Problem
 The Code Jam team has just purchased an orchard that is a two-dimensional matrix of cells of unprepared soil, with 1000 rows and 1000 columns. We plan to use this orchard to grow a variety of trees — AVL, binary, red-black, splay, and so on — so we need to prepare some of the cells by digging holes:
 
 In order to have enough trees to use for each year's tree problems, we need there to be at least A prepared cells.
@@ -14,7 +14,7 @@ Digging is hard work for humans, so we have borrowed the Go gopher from the Goog
 
 We can only deploy the gopher up to 1000 times before it gets too tired to keep digging, so we need your help in figuring out how to deploy it strategically. When you deploy the gopher, you will be told which cell the gopher actually prepared, and you can take this information into account before deploying it again, if needed. Note that you do not have to declare the dimensions or location of a rectangle in advance.
 
-Input and output
+#### Input and output
 This problem is interactive, which means that the concepts of input and output are different than in standard Code Jam problems. You will interact with a separate process that both provides you with information and evaluates your responses. All information comes into your program via standard input; anything that you need to communicate should be sent via standard output. Remember that many programming languages buffer the output by default, so make sure your output actually goes out (for instance, by flushing the buffer) before blocking to wait for a response. See the FAQ for an explanation of what it means to flush the buffer. Anything your program sends through standard error is ignored, but it might consume some memory and be counted against your memory limit, so do not overflow it. To help you debug, a local testing tool script (in Python) is provided at the very end of the problem statement. In addition, sample solutions to a previous Code Jam interactive problem (in all of our supported languages) are provided here.
 
 Initially, your program should read a single line containing a single integer T indicating the number of test cases. Then, you need to process T test cases.
@@ -33,57 +33,48 @@ You should not send additional information to the judge after solving all test c
 
 Please be advised that for a given test case, the cells that the gopher will pick from each 3x3 block are (pseudo-)random and independent of each other, but they are determined using the same seed each time for the same test case, so a solution that gives an incorrect result for a test case will do so consistently across all attempts for the same test case. We have also set different seeds for different test cases.
 
-Limits
-1 ≤ T ≤ 20.
-Memory limit: 1 GB.
+#### Limits
+1 ≤ T ≤ 20.   
+Memory limit: 1 GB.   
 
-Test set 1 (Visible)
-A = 20.
-Time limit (for the entire test set): 20 seconds.
-
-Test set 2 (Hidden)
-A = 200.
-Time limit (for the entire test set): 60 seconds.
-
-Sample interaction
-  t = readline_int()         // reads 2 into t
-  a = readline_int()         // reads 3 into a
-  printline 10 10 to stdout  // sends out cell 10 10 to prepare
-  flush stdout
-  x, y = readline_two_int()  // reads 10 11, since cell 10 11 is prepared
-  printline 10 10 to stdout  // sends out cell 10 10 again to prepare
-  flush stdout
-  x, y = readline_two_int()  // reads 10 10, since cell 10 10 is prepared
-  printline 10 12 to stdout  // sends out cell 10 12 to prepare
-  flush stdout
-  x, y = readline_two_int()  // reads 10 11, since cell 10 11 is prepared again
-  printline 10 10 to stdout  // sends out cell 10 10 to prepare
-  flush stdout
-  x, y = readline_two_int()  // reads 11 10, since cell 11 10 is prepared
-  printline 11 10 to stdout  // sends out cell 11 10 to prepare
-  flush stdout
-  x, y = readline_two_int()  // reads 0 0; since cell 11 11 is prepared, a rectangle of size 4
+Sample interaction  
+  t = readline_int()         // reads 2 into t  
+  a = readline_int()         // reads 3 into a   
+  printline 10 10 to stdout  // sends out cell 10 10 to prepare  
+  flush stdout   
+  x, y = readline_two_int()  // reads 10 11, since cell 10 11 is prepared   
+  printline 10 10 to stdout  // sends out cell 10 10 again to prepare   
+  flush stdout   
+  x, y = readline_two_int()  // reads 10 10, since cell 10 10 is prepared   
+  printline 10 12 to stdout  // sends out cell 10 12 to prepare   
+  flush stdout   
+  x, y = readline_two_int()  // reads 10 11, since cell 10 11 is prepared again   
+  printline 10 10 to stdout  // sends out cell 10 10 to prepare   
+  flush stdout   
+  x, y = readline_two_int()  // reads 11 10, since cell 11 10 is prepared   
+  printline 11 10 to stdout  // sends out cell 11 10 to prepare   
+  flush stdout   
+  x, y = readline_two_int()  // reads 0 0; since cell 11 11 is prepared, a rectangle of size 4   
+  
 The pseudocode above is the first half of a sample interaction for one test set. Suppose there are only two test cases in this test set. The pseudocode first reads the number of test cases into an integer t. Then the first test case begins. For the first test case, suppose A is 3 (although, in the real test sets, A is always either 20 or 200). The pseudocode first reads the value of A into an integer a, and outputs 10 10 the location of the cell to prepare. By (pseudo-)random choice, the cell at location 10 11 is prepared, so the code reads 10 11 in response. Next, the code outputs cell 10 10 again for preparation, and the gopher prepares 10 10 this time. The code subsequently sends 10 12 with the goal of finishing preparing a rectangle of size 3, but only gets cell 10 11 prepared again. 10 10 is then sent out, and this time 11 10 is prepared. Notice that although the prepared area is of size 3, a rectangle has not been formed, so the preparation goes on. In the end, the pseudocode decides to try out cell 11 10, and 0 0 is sent back, which implies that cell 11 11 has been prepared, completing a rectangle (or square, rather) or size 4. As a result, the first test case is successfully solved.
 
-  a = readline_int()         // reads 3 into a
-  printline 10 10 to stdout  // sends out cell 10 10 to prepare
-  x, y = readline_two_int()  // does not flush stdout; hangs on the judge
+  a = readline_int()         // reads 3 into a  
+  printline 10 10 to stdout  // sends out cell 10 10 to prepare   
+  x, y = readline_two_int()  // does not flush stdout; hangs on the judge   
+  
 Now the pseudocode is ready for the second test case. It again first reads an integer a = 3 and decides to send cell 10 10 to prepare. However, this time, the code forgets to flush the stdout buffer! As a result, 10 10 is buffered and not sent to the judge. Both the judge and the code wait on each other, leading to a deadlock and eventually a Time Limit Exceeded error.
 
-  a = readline_int()         // reads 3 into a
-  printline 1 1 to stdout    // sends out cell 1 1 to prepare
-  x, y = readline_two_int()  // reads -1 -1, since 1 is outside the range [2, 999]
-  printline 10 10 to stdout  // sends a cell location anyway
-  x, y = readline_two_int()  // hangs since the judge stops sending info to stdin
+  a = readline_int()         // reads 3 into a  
+  printline 1 1 to stdout    // sends out cell 1 1 to prepare   
+  x, y = readline_two_int()  // reads -1 -1, since 1 is outside the range [2, 999]    
+  printline 10 10 to stdout  // sends a cell location anyway   
+  x, y = readline_two_int()  // hangs since the judge stops sending info to stdin   
+  
 The code above is another example. Suppose for the second test case, the code remembers to flush the output buffer, but sends out cell 1 1 to prepare. Remember that the row and column of the chosen cell must both be in the range [2, 999], so 1 1 is illegal! As a result, the judge sends back -1 -1. However, after reading -1 -1 into x and y, the code proceeds to send another cell location to the judge, and wait. Since there is nothing in the input stream (the judge has stopped sending info), the code hangs and will eventually receive a Time Limit Exceeded error.
 
 Note that if the code in the example above exits immediately after reading -1 -1, it will receive a Wrong Answer instead:
 
-  a = readline_int()         // reads 3 into a
-  printline 1 1 to stdout    // sends out cell 1 1 to prepare
-  x, y = readline_two_int()  // reads -1 -1, since 1 is outside the range [2, 999]
-  exit                       // receives a Wrong Answer judgment
-Local Testing Tool
-To better facilitate local testing, we provide you the following script. Instructions are included inside. You are encouraged to add more test cases for better testing. Please be advised that although the testing tool is intended to simulate the judging system, it is NOT the real judging system and might behave differently.
-
-If your code passes the testing tool but fails the real judge, please check here to make sure that you are using the same compiler as us.
+  a = readline_int()         // reads 3 into a  
+  printline 1 1 to stdout    // sends out cell 1 1 to prepare   
+  x, y = readline_two_int()  // reads -1 -1, since 1 is outside the range [2, 999]  
+  exit                       // receives a Wrong Answer judgment   
