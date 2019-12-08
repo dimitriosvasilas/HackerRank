@@ -1,4 +1,4 @@
-package main
+package day01
 
 import (
 	"io"
@@ -13,13 +13,13 @@ import (
 var modules []int
 
 func TestMain(m *testing.M) {
-	readF, err := utils.ReadFile("input")
+	readF, err := utils.ReadFile("day01.input")
 	if err != nil {
 		log.Fatal(err)
 	}
 	modules = make([]int, 0)
 	for {
-		lines, err := readF.ReadAndParseLines(1, " ", int(0))
+		lines, err := readF.ReadAndParseLines(1, " ", false, int(0))
 		if err == io.EOF {
 			break
 		} else if err != nil {
