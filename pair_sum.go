@@ -4,10 +4,10 @@ import (
 	"sort"
 )
 
-// Given a list of numbers and a number k,
-// return whether any two numbers from the list add up to k.
-
-// -------
+/*
+	Given a list of numbers and a number k,
+	return whether any two numbers from the list add up to k.
+*/
 
 // Sorting the array gives us a helfull property:
 // Given an element in the array, the element to its right has a greater
