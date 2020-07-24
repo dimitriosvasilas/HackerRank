@@ -1,3 +1,4 @@
+
 ## Drawing Rooted Binary Trees
 
 Binary trees are a common data structure and understanding some basic operations is important. For this problem, you will play with traversals and tree drawing strategies.
@@ -31,6 +32,10 @@ For each instance of the problem, you must output the ASCII representation of th
 
 ### Constraints and notes
 All nodes are represented by lowercase English letters
+
+The problem consists of two parts
+- building a binary tree using its in-order and pre-order traversals
+- creating the ASCII representation of a tree
 
 
     Input       Output
