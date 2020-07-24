@@ -26,7 +26,9 @@ var productOfRestTests = []struct {
 
 func TestProductOfRest(t *testing.T) {
 	for _, tt := range productOfRestTests {
-		response := productOfRest(tt.array)
+		response := productOfRestDiv(tt.array)
+		assert.Equal(t, tt.expectedResponse, response, "")
+		response = productOfRest(tt.array)
 		assert.Equal(t, tt.expectedResponse, response, "")
 	}
 }
