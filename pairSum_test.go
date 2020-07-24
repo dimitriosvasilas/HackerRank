@@ -1,18 +1,12 @@
 package algo
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestMain(m *testing.M) {
-	returnCode := m.Run()
-	os.Exit(returnCode)
-}
-
-var tests = []struct {
+var testsPairSum = []struct {
 	array            []int
 	k                int
 	expectedResponse bool
@@ -40,7 +34,7 @@ var tests = []struct {
 }
 
 func TestPairSum(t *testing.T) {
-	for _, tt := range tests {
+	for _, tt := range testsPairSum {
 		response := pairSumHash(tt.array, tt.k)
 		assert.Equal(t, tt.expectedResponse, response, "")
 		response = pairSumSort(tt.array, tt.k)
